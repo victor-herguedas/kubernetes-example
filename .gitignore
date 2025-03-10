@@ -1,0 +1,53 @@
+# ===============================
+# Node.js
+# ===============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+dist/
+
+# ===============================
+# Visual Studio
+# ===============================
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ===============================
+# IntelliJ IDEA / WebStorm
+# ===============================
+.idea/
+*.iml
+*.iws
+out/
+
+# ===============================
+# Proyectos Spring / Java
+# ===============================
+# Archivos compilados
+*.class
+
+# Archivos empaquetados
+*.jar
+*.war
+*.ear
+
+# Directorios de construcción
+target/
+build/
+bin/
+.gradle/
+
+# Archivos de configuración de Eclipse (si se usa)
+.classpath
+.project
+.settings/
+
+# Logs
+logs/
+*.log
