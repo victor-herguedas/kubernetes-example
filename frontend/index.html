@@ -2,15 +2,17 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>App Saludo y Contador</title>
+  <title>App Saludo, Contador y Hora</title>
 </head>
 <body>
-  <h1>App Saludo y Contador</h1>
+  <h1>App Saludo, Contador y Hora</h1>
   <button id="saludoBtn">Obtener Saludo (v1)</button>
   <button id="saludoBtnV2">Obtener Saludo (v2)</button>
   <br><br>
   <button id="contadorBtn">Incrementar Contador (v1)</button>
   <button id="contadorBtnV2">Incrementar Contador (v2)</button>
+  <br><br>
+  <button id="horaBtn">Obtener Hora</button>
   <br><br>
   <div id="resultado"></div>
 
@@ -51,6 +53,16 @@
         .then(response => response.json())
         .then(data => {
           document.getElementById("resultado").innerText = "Contador v2: " + data.contador + " " + data.detalle;
+        })
+        .catch(error => console.error("Error:", error));
+    });
+
+    // Llamada al Servicio de Hora
+    document.getElementById("horaBtn").addEventListener("click", function() {
+      fetch("http://localhost:3003/hora")
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("resultado").innerText = "Hora actual: " + data.hora;
         })
         .catch(error => console.error("Error:", error));
     });

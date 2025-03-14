@@ -1,6 +1,9 @@
 const express = require('express');
+var cors = require('cors');
 const app = express();
 const port = 3001;
+
+app.use(cors())
 
 // Endpoint de saludo: admite dos versiones según el parámetro "version"
 app.get('/saludo', (req, res) => {

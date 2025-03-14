@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
+var cors = require('cors');
 const port = 3003;
+
+app.use(cors())
 
 app.get('/hora', (req, res) => {
   const version = req.query.version || '1';
