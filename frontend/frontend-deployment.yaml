@@ -20,7 +20,7 @@ spec:
       containers:
       - name: nginx
         image: kubernetes-front-app:latest
-        # si se descarga de un repositorio en vez de usar una imagen local, eliminar o comentar la línea de abajo
-        imagePullPolicy: Never
+        # si se descarga de un repositorio en caso de que no la encuentre en local
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
