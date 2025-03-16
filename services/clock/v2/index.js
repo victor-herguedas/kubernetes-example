@@ -5,7 +5,7 @@ const port = 3003;
 
 app.use(cors())
 
-app.get('/hora', (req, res) => {
+app.get('/', (req, res) => {
   const version = req.query.version || '1';
   const now = new Date();
   

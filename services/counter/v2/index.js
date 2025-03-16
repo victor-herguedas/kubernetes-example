@@ -7,7 +7,7 @@ app.use(cors())
 
 let contador = 0;
 
-app.get('/contador', (req, res) => {
+app.get('/', (req, res) => {
   const version = req.query.version || '1';
   contador++;  // Incrementa el contador en cada petición
     res.json({ contador });

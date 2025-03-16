@@ -22,7 +22,7 @@ spec:
         - uri:
             prefix: /services/time
       rewrite:
-        uri: /hora
+        uri: /
       route:
         - destination:
             host: hour-service

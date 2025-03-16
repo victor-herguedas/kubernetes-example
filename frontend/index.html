@@ -6,11 +6,9 @@
 </head>
 <body>
   <h1>App Saludo, Contador y Hora</h1>
-  <button id="saludoBtn">Obtener Saludo (v1)</button>
-  <button id="saludoBtnV2">Obtener Saludo (v2)</button>
+  <button id="saludoBtn">Obtener Saludo</button>
   <br><br>
-  <button id="contadorBtn">Incrementar Contador (v1)</button>
-  <button id="contadorBtnV2">Incrementar Contador (v2)</button>
+  <button id="contadorBtn">Incrementar Contador</button>
   <br><br>
   <button id="horaBtn">Obtener Hora</button>
   <br><br>
@@ -19,7 +17,7 @@
   <script>
     // Llamada al Servicio de Saludo v1
     document.getElementById("saludoBtn").addEventListener("click", function() {
-      fetch("http://localhost:3001/saludo?version=1")
+      fetch("http://localhost/services/greeting")
         .then(response => response.json())
         .then(data => {
           document.getElementById("resultado").innerText = "Saludo v1: " + data.mensaje;
@@ -27,19 +25,9 @@
         .catch(error => console.error("Error:", error));
     });
 
-    // Llamada al Servicio de Saludo v2
-    document.getElementById("saludoBtnV2").addEventListener("click", function() {
-      fetch("http://localhost:3001/saludo?version=2")
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById("resultado").innerText = "Saludo v2: " + data.mensaje;
-        })
-        .catch(error => console.error("Error:", error));
-    });
-
     // Llamada al Servicio de Contador v1
     document.getElementById("contadorBtn").addEventListener("click", function() {
-      fetch("http://localhost:3002/contador?version=1")
+      fetch("http://localhost/services/counter")
         .then(response => response.json())
         .then(data => {
           document.getElementById("resultado").innerText = "Contador v1: " + data.contador;
@@ -47,19 +35,9 @@
         .catch(error => console.error("Error:", error));
     });
 
-    // Llamada al Servicio de Contador v2
-    document.getElementById("contadorBtnV2").addEventListener("click", function() {
-      fetch("http://localhost:3002/contador?version=2")
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById("resultado").innerText = "Contador v2: " + data.contador + " " + data.detalle;
-        })
-        .catch(error => console.error("Error:", error));
-    });
-
     // Llamada al Servicio de Hora
     document.getElementById("horaBtn").addEventListener("click", function() {
-      fetch("http://localhost:3003/hora")
+      fetch("http://localhost/services/time")
         .then(response => response.json())
         .then(data => {
           document.getElementById("resultado").innerText = "Hora actual: " + data.hora;

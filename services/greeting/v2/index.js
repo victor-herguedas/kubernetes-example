@@ -6,7 +6,7 @@ const port = 3001;
 app.use(cors())
 
 // Endpoint de saludo: admite dos versiones según el parámetro "version"
-app.get('/saludo', (req, res) => {
+app.get('/', (req, res) => {
   const version = req.query.version || '1';
     res.json({ mensaje: "¡Hola, bienvenido a la App - versión 2!" });
 });
