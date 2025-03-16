@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: servicio-hora
+  name: hour-v1
   labels:
-    app: servicio-hora
+    app: hour-v1
     version: v1   
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: servicio-hora-a
+      app: hour-v1
   template:
     metadata:
       labels:
-        app: servicio-hora-a
+        app: hour-v1
         version: v1
     spec:
       containers:
-      - name: servicio-hora-a
+      - name: hour-v1
         image: kubernetes-service-clock-v1   
         imagePullPolicy: IfNotPresent         # O Always si deseas forzar la descarga
         ports:

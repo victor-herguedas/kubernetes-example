@@ -4,10 +4,13 @@ metadata:
   name: frontend-svc
   labels:
     app: frontend
+    version: v1
 spec:
   selector:
     app: frontend
+    version: v1
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    # - name: http-frontend
+    - protocol: TCP
+      port: 80
+      targetPort: 80

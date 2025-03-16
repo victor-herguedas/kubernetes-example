@@ -5,22 +5,25 @@ metadata:
   name: frontend
   labels:
     app: frontend
+    version: v1   
 spec:
   replicas: 1
   selector:
     # Le estamos diciendo que tiene que coger las etiquetas que tengan el valor app: frontend
     matchLabels:
       app: frontend
+      version: v1   
   # Plantilla para los pods que se crearán
   template:
     metadata:
       labels:
         app: frontend
+        version: v1   
     spec:
       containers:
       - name: nginx
         image: kubernetes-front-app:latest
         # si se descarga de un repositorio en caso de que no la encuentre en local
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Never
         ports:
         - containerPort: 80
