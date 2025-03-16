@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servicio-hora
+  labels:
+    app: servicio-hora
+    version: v1   
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: servicio-hora-a
+  template:
+    metadata:
+      labels:
+        app: servicio-hora-a
+        version: v1
+    spec:
+      containers:
+      - name: servicio-hora-a
+        image: kubernetes-service-clock-v1   
+        imagePullPolicy: IfNotPresent         # O Always si deseas forzar la descarga
+        ports:
+        - containerPort: 3003                 # El puerto que expone la app
