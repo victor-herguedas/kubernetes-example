@@ -25,12 +25,12 @@ spec:
         uri: /
       route:
         - destination:
-            host: hour-service
+            host: hour-v1-service
             port:
               number: 80
-          # weight: 50
-        # - destination:
-        #     host: servicio-b
-        #     port:
-        #       number: 3003
-        #   weight: 50
+          weight: 50
+        - destination:
+            host: hour-v2-service
+            port:
+              number: 80
+          weight: 50
