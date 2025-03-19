@@ -34,3 +34,35 @@ spec:
             port:
               number: 80
           weight: 50
+    - match:
+        - uri:
+            prefix: /services/counter
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: counter-v1-service
+            port:
+              number: 80
+          weight: 50
+        - destination:
+            host: counter-v2-service
+            port:
+              number: 80
+          weight: 50
+    - match:
+        - uri:
+            prefix: /services/greeting
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: greeting-v1-service
+            port:
+              number: 80
+          weight: 50
+        - destination:
+            host: greeting-v2-service
+            port:
+              number: 80
+          weight: 50
