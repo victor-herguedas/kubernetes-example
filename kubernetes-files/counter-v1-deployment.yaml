@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: counter-v2
+  name: counter-v1
   labels:
-    app: counter-v2
-    version: v2   
+    app: counter-v1
+    version: v1   
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: counter-v2
+      app: counter-v1
   template:
     metadata:
       labels:
-        app: counter-v2
-        version: v2
+        app: counter-v1
+        version: v1
     spec:
       containers:
-      - name: counter-v2
-        image: kubernetes-service-counter-v2   
+      - name: counter-v1
+        image: kubernetes-service-counter-v1   
         imagePullPolicy: IfNotPresent         # O Always si deseas forzar la descarga
         ports:
         - containerPort: 3002               # El puerto que expone la app
