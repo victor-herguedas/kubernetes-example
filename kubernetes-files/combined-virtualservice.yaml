@@ -1,4 +1,4 @@
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: virtualservice-combined
@@ -22,18 +22,16 @@ spec:
         - uri:
             prefix: /services/time
       rewrite:
-        uri: /
+        uri: "/"
       route:
         - destination:
-            host: hour-v1-service
-            port:
-              number: 80
-          weight: 50
+            host: time-service
+            subset: v1
+          weight: 70
         - destination:
-            host: hour-v2-service
-            port:
-              number: 80
-          weight: 50
+            host: time-service
+            subset: v2
+          weight: 30
     - match:
         - uri:
             prefix: /services/counter
@@ -41,14 +39,12 @@ spec:
         uri: /
       route:
         - destination:
-            host: counter-v1-service
-            port:
-              number: 80
+            host: counter-service
+            subset: v1
           weight: 50
         - destination:
-            host: counter-v2-service
-            port:
-              number: 80
+            host: counter-service
+            subset: v2
           weight: 50
     - match:
         - uri:
@@ -57,12 +53,10 @@ spec:
         uri: /
       route:
         - destination:
-            host: greeting-v1-service
-            port:
-              number: 80
+            host: greeting-service
+            subset: v1
           weight: 50
         - destination:
-            host: greeting-v2-service
-            port:
-              number: 80
+            host: greeting-service
+            subset: v2
           weight: 50

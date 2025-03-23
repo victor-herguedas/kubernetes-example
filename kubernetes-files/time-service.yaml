@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: time-v1
+  labels:
+    app: time-service
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: time-service
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: time-service
+        version: v1
+    spec:
+      containers:
+      - name: time-v1
+        image: kubernetes-service-clock-v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 3002
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: time-v2
+  labels:
+    app: time-service
+    version: v2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: time-service
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: time-service
+        version: v2
+    spec:
+      containers:
+      - name: time-v2
+        image: kubernetes-service-clock-v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 3003
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: time-service
+  labels:
+    app: time-service
+spec:
+  selector:
+    app: time-service
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 3003
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: time-destrule
+spec:
+  host: time-service
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
