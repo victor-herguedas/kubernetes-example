@@ -1,0 +1,123 @@
+---
+# 1. ConfigMap con nombre de DB y usuario
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: postgres
+    version: v1
+data:
+  POSTGRES_DB: postgresdb
+  POSTGRES_USER: admin
+
+---
+# 2. Secret para la contraseña (en base64)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  labels:
+    app: postgres
+    version: v1
+type: Opaque
+data:
+  POSTGRES_PASSWORD: YWRtaW4xMjM=  # "admin123" codificado en Base64
+
+---
+# 3. ConfigMap con el script de inicialización que crea la tabla "counter"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+  labels:
+    app: postgres
+    version: v1
+data:
+  init.sql: |
+    CREATE TABLE IF NOT EXISTS counter (
+      id SERIAL PRIMARY KEY,
+      count INTEGER NOT NULL DEFAULT 0
+    );
+
+---
+# 4. StatefulSet de PostgreSQL
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql
+  labels:
+    app: postgres
+    version: v1
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+        version: v1
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:latest
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_DB
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_USER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: POSTGRES_PASSWORD
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+          - name: data
+            mountPath: /var/lib/postgresql/data
+          - name: init-sql
+            mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: init-sql
+          configMap:
+            name: postgres-init
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: hostpath    # Ajustar según tu entorno
+      resources:
+        requests:
+          storage: 1Gi
+
+---
+# 5. Service para PostgreSQL
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+    version: v1
+spec:
+  selector:
+    app: postgres
+  ports:
+  - name: tcp-postgres
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
+
+---
