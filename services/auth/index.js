@@ -31,6 +31,17 @@ app.get('/verify', (req, res) => {
   return res.status(403).json({ ok: false, error: 'Token no válido' });
 });
 
+app.post('/ext_authz/check', (req, res) => {
+    // Istio envía info en el body o en headers, depende de la config
+    const token = req.header('X-type');
+    if (token === 'abc123') {
+      // Retornar 200 si todo OK
+      return res.status(200).send();
+    }
+    // Si no hay token o no es válido, 403
+    return res.status(403).send();
+  });
+
 const PORT = process.env.PORT || 3005;
 app.listen(PORT, () => {
   console.log(`Auth-service v1 escuchando en http://0.0.0.0:${PORT}`);
