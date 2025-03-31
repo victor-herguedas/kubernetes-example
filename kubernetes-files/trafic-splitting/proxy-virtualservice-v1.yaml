@@ -1,0 +1,72 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: virtualservice-combined
+spec:
+  hosts:
+    - "*" # O un dominio específico, e.g. "mi-servicio.example.com"
+  gateways:
+    - ingress-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /front
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            host: frontend-svc
+            port:
+              number: 80
+    - match:
+        - uri:
+            prefix: /services/time
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            host: time-service
+            subset: v1
+          weight: 100
+        - destination:
+            host: time-service
+            subset: v2
+          weight: 0
+    - match:
+        - uri:
+            prefix: /services/counter
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: counter-service
+            subset: v1
+          weight: 100
+        - destination:
+            host: counter-service
+            subset: v2
+          weight: 0
+    - match:
+        - uri:
+            prefix: /services/greeting
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: greeting-service
+            subset: v1
+          weight: 100
+        - destination:
+            host: greeting-service
+            subset: v2
+          weight: 0
+    - match:
+        - uri:
+            prefix: /services/auth/
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            host: auth-service
+            subset: v1
+          weight: 100

@@ -86,7 +86,7 @@ app.get('/', async (req, res) => {
   console.log('[ROUTE /] Petición recibida. Intentando incrementar contador...');
   try {
     const result = await pool.query(
-      'UPDATE counter SET count = count + 1 WHERE id = 1 RETURNING count'
+      'UPDATE counter SET count = count + 100 WHERE id = 1 RETURNING count'
     );
     if (!result.rows[0]) {
       console.warn('[ROUTE /] No se pudo obtener el nuevo valor del contador.');
